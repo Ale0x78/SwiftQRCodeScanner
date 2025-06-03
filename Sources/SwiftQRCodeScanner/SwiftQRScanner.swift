@@ -436,10 +436,8 @@ extension QRCodeScannerController: AVCaptureMetadataOutputObjectsDelegate {
                     } else {
                         delegate?.qrScanner(self, didFailWithError: .emptyResult)
                     }
-                        // self.dismiss(animated: true, completion: nil)
-                        // captureSession.stopRunning()
-                        // sleep(2)
-                        // self.startScanningQRCode()
+                    captureSession.stopRunning()
+                    // self.dismiss(animated: true, completion: nil)
                 }
             }
         }
@@ -470,7 +468,7 @@ extension QRCodeScannerController: ImagePickerDelegate {
                 return
             }
             self.delegate?.qrScanner(self, didScanQRCodeWithResult: qrCodeData)
-            // self.dismiss(animated: true)
+            self.dismiss(animated: true)
         } else {
             showInvalidQRCodeAlert()
         }
