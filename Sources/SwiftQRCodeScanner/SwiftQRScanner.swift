@@ -372,7 +372,7 @@ public class QRCodeScannerController: UIViewController,
             if let frontDeviceInput = frontCaptureInput {
                 if !captureSession.canAddInput(frontDeviceInput) {
                     delegate?.qrScanner(self, didFailWithError: .inputFailed)
-                    self.dismiss(animated: true, completion: nil)
+                    // self.dismiss(animated: true, completion: nil)
                     return
                 }
                 captureSession.addInput(frontDeviceInput)
@@ -381,7 +381,7 @@ public class QRCodeScannerController: UIViewController,
             if let defaultDeviceInput = defaultCaptureInput {
                 if !captureSession.canAddInput(defaultDeviceInput) {
                     delegate?.qrScanner(self, didFailWithError: .inputFailed)
-                    self.dismiss(animated: true, completion: nil)
+                    // self.dismiss(animated: true, completion: nil)
                     return
                 }
                 captureSession.addInput(defaultDeviceInput)
@@ -392,7 +392,7 @@ public class QRCodeScannerController: UIViewController,
         
         if !captureSession.canAddOutput(dataOutput) {
             delegate?.qrScanner(self, didFailWithError: .outputFailed)
-            self.dismiss(animated: true, completion: nil)
+            // self.dismiss(animated: true, completion: nil)
             return
         }
         captureSession.addOutput(dataOutput)
@@ -437,7 +437,7 @@ extension QRCodeScannerController: AVCaptureMetadataOutputObjectsDelegate {
                         delegate?.qrScanner(self, didFailWithError: .emptyResult)
                     }
                     captureSession.stopRunning()
-                    self.dismiss(animated: true, completion: nil)
+                    // self.dismiss(animated: true, completion: nil)
                 }
             }
         }
@@ -468,7 +468,7 @@ extension QRCodeScannerController: ImagePickerDelegate {
                 return
             }
             self.delegate?.qrScanner(self, didScanQRCodeWithResult: qrCodeData)
-            self.dismiss(animated: true)
+            // self.dismiss(animated: true)
         } else {
             showInvalidQRCodeAlert()
         }
