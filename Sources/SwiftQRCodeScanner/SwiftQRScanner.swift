@@ -438,9 +438,8 @@ extension QRCodeScannerController: AVCaptureMetadataOutputObjectsDelegate {
                     }
                         // self.dismiss(animated: true, completion: nil)
                         captureSession.stopRunning()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                            self.captureSession.startRunning()
-                        }
+                        sleep(2)
+                        self.captureSession.startRunning()
                 }
             }
         }
