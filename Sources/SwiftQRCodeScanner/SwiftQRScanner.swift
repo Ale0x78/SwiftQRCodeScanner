@@ -436,13 +436,11 @@ extension QRCodeScannerController: AVCaptureMetadataOutputObjectsDelegate {
                     } else {
                         delegate?.qrScanner(self, didFailWithError: .emptyResult)
                     }
-                    if let unwrapedStringValue = unwraped.stringValue {
-                        delegate?.qrScanner(self, scanDidComplete: unwrapedStringValue)
-                    } else {
-                        delegate?.qrScannerDidFail(self, error: "Empty string found")
-                    }
-                    captureSession.stopRunning()
-                    // self.dismiss(animated: true, completion: nil)
+                        // self.dismiss(animated: true, completion: nil)
+                        captureSession.stopRunning()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                            self.captureSession.startRunning()
+                        }
                 }
             }
         }
