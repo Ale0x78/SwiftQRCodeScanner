@@ -423,27 +423,26 @@ extension QRCodeScannerController: AVCaptureMetadataOutputObjectsDelegate {
      
      This function iterates through the detected objects, checks for QR code type, validates its position within the view, and triggers a delay before notifying the delegate about the scan result.
      */
-    public func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
-        
+    public func metadataOutput(_ output: AVCaptureMetadataOutput,
+                               didOutput metadataObjects: [AVMetadataObject],
+                               from connection: AVCaptureConnection) {
         for data in metadataObjects {
-            let transformed = videoPreviewLayer.transformedMetadataObject(for: data) as? AVMetadataMachineReadableCodeObject
-            if let unwraped = transformed {
-                if view.bounds.contains(unwraped.bounds) {
-                    delCnt = delCnt + 1
-                    if delCnt > delayCount {
-                        if let unwrapedStringValue = unwraped.stringValue {
-                            delegate?.qrScanner(self, scanDidComplete: unwrapedStringValue)
-                        } else {
-                            delegate?.qrScannerDidFail(self, error: "Empty string found")
-                        }
-                        captureSession.stopRunning()
-                        // self.dismiss(animated: true, completion: nil)
-                        captureSession.stopRunning()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                            self.captureSession.startRunning()
-                        }
-
+            guard let transformed = videoPreviewLayer.transformedMetadataObject(for: data) as? AVMetadataMachineReadableCodeObject else { continue }
+            if view.bounds.contains(transformed.bounds) {
+                _delayCount += 1
+                if _delayCount > delayCount {
+                    if let unwrappedStringValue = transformed.stringValue {
+                        delegate?.qrScanner(self, didScanQRCodeWithResult: unwrappedStringValue)
+                    } else {
+                        delegate?.qrScanner(self, didFailWithError: .emptyResult)
                     }
+                    if let unwrapedStringValue = unwraped.stringValue {
+                        delegate?.qrScanner(self, scanDidComplete: unwrapedStringValue)
+                    } else {
+                        delegate?.qrScannerDidFail(self, error: "Empty string found")
+                    }
+                    captureSession.stopRunning()
+                    // self.dismiss(animated: true, completion: nil)
                 }
             }
         }
