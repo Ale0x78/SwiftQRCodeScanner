@@ -431,12 +431,13 @@ extension QRCodeScannerController: AVCaptureMetadataOutputObjectsDelegate {
             if view.bounds.contains(transformed.bounds) {
                 _delayCount += 1
                 if _delayCount > delayCount {
+                    // delegate?.qrScanner(self, didScanQRCodeWithResult: qrCodeData)
                     if let unwrappedStringValue = transformed.stringValue {
                         delegate?.qrScanner(self, didScanQRCodeWithResult: unwrappedStringValue)
                     } else {
                         delegate?.qrScanner(self, didFailWithError: .emptyResult)
                     }
-                    captureSession.stopRunning()
+                    // captureSession.stopRunning()
                     // self.dismiss(animated: true, completion: nil)
                 }
             }
@@ -451,7 +452,7 @@ extension QRCodeScannerController: UIAdaptivePresentationControllerDelegate {
     ///
     /// - Parameter presentationController: The presentation controller that was dismissed.
     public func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
-        self.delegate?.qrScannerDidCancel(self)
+        // self.delegate?.qrScannerDidCancel(self)
     }
 }
 
